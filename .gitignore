@@ -341,7 +341,6 @@ healthchecksdb
 
 Build/
 Libraries/
-Plugins/
 Presentation/
-!Plugins/Nop.Plugin.Payments.SwedbankPay/
+
 
