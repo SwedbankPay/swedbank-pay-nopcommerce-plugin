@@ -78,28 +78,28 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
 
             //load settings for a chosen store scope
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
-            var payPalStandardPaymentSettings = _settingService.LoadSetting<SwedbankPayPaymentSettings>(storeScope);
+            var swedbankPayPaymentSettings = _settingService.LoadSetting<SwedbankPayPaymentSettings>(storeScope);
 
             var model = new ConfigurationModel
             {
-                UseSandbox = payPalStandardPaymentSettings.UseSandbox,
-                BusinessEmail = payPalStandardPaymentSettings.BusinessEmail,
-                PdtToken = payPalStandardPaymentSettings.PdtToken,
-                PassProductNamesAndTotals = payPalStandardPaymentSettings.PassProductNamesAndTotals,
-                AdditionalFee = payPalStandardPaymentSettings.AdditionalFee,
-                AdditionalFeePercentage = payPalStandardPaymentSettings.AdditionalFeePercentage,
+                UseSandbox = swedbankPayPaymentSettings.UseSandbox,
+                BusinessEmail = swedbankPayPaymentSettings.BusinessEmail,
+                PdtToken = swedbankPayPaymentSettings.PdtToken,
+                PassProductNamesAndTotals = swedbankPayPaymentSettings.PassProductNamesAndTotals,
+                AdditionalFee = swedbankPayPaymentSettings.AdditionalFee,
+                AdditionalFeePercentage = swedbankPayPaymentSettings.AdditionalFeePercentage,
                 ActiveStoreScopeConfiguration = storeScope
             };
 
             if (storeScope <= 0)
                 return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", model);
 
-            model.UseSandbox_OverrideForStore = _settingService.SettingExists(payPalStandardPaymentSettings, x => x.UseSandbox, storeScope);
-            model.BusinessEmail_OverrideForStore = _settingService.SettingExists(payPalStandardPaymentSettings, x => x.BusinessEmail, storeScope);
-            model.PdtToken_OverrideForStore = _settingService.SettingExists(payPalStandardPaymentSettings, x => x.PdtToken, storeScope);
-            model.PassProductNamesAndTotals_OverrideForStore = _settingService.SettingExists(payPalStandardPaymentSettings, x => x.PassProductNamesAndTotals, storeScope);
-            model.AdditionalFee_OverrideForStore = _settingService.SettingExists(payPalStandardPaymentSettings, x => x.AdditionalFee, storeScope);
-            model.AdditionalFeePercentage_OverrideForStore = _settingService.SettingExists(payPalStandardPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
+            model.UseSandbox_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.UseSandbox, storeScope);
+            model.BusinessEmail_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.BusinessEmail, storeScope);
+            model.PdtToken_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.PdtToken, storeScope);
+            model.PassProductNamesAndTotals_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.PassProductNamesAndTotals, storeScope);
+            model.AdditionalFee_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFee, storeScope);
+            model.AdditionalFeePercentage_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
 
             return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", model);
         }
