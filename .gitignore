@@ -339,11 +339,12 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-src/Build/
-src/Libraries/
-src/Presentation/
 
-
+Build/
+Libraries/
+Presentation/
+Plugins/
+Tests/
 /Deploying.Readme.txt
 /NopCommerce.sln
 src/Plugins/
