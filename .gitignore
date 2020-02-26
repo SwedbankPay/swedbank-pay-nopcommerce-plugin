@@ -339,8 +339,12 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-Build/
-Libraries/
-Presentation/
+src/Build/
+src/Libraries/
+src/Presentation/
 
 
+/Deploying.Readme.txt
+/NopCommerce.sln
+src/Plugins/
+!src/Plugins/Nop.Plugin.Payments.SwedbankPay
