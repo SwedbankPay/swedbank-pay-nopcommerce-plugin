@@ -1,6 +1,6 @@
 {
-  "Group": "Payments",
-  "FriendlyName": "SwedbankPay Checkout",
+  "Group": "Payment methods",
+  "FriendlyName": "SwedbankPay Payments",
   "SystemName": "Payments.SwedbankPay",
   "Version": "1.0",
   "SupportedVersions": [ "4.20" ],

@@ -3,48 +3,45 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
+using Nop.Services.Configuration;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
+using SwedbankPay.Sdk.Payments;
 
 namespace Nop.Plugin.Payments.SwedbankPay
 {
     public class SwedbankPayPaymentProcessor : BasePlugin, IPaymentMethod
     {
+        #region Fields
+
+        private readonly IWebHelper _webHelper;
+        private readonly IPaymentService _paymentService;
+        private readonly SwedbankPayPaymentSettings _swedbankPayPaymentSettings;
+        private readonly ISettingService _settingService;
 
 
-        public bool SupportCapture => true;
 
-        public bool SupportPartiallyRefund => true;
+        #endregion
 
-        public bool SupportRefund => true;
 
-        public bool SupportVoid => true;
+        #region Ctor
 
-        //TODO: Check this
-        public RecurringPaymentType RecurringPaymentType => RecurringPaymentType.Manual;
-
-        public PaymentMethodType PaymentMethodType => PaymentMethodType.Standard;
-
-        //TODO: Check this
-        public bool SkipPaymentInfo => false;
-
-        //TODO: Check this
-        public string PaymentMethodDescription => "Payment Method Description";
-
-        public CancelRecurringPaymentResult CancelRecurringPayment(CancelRecurringPaymentRequest cancelPaymentRequest)
+        public SwedbankPayPaymentProcessor(IPaymentService paymentService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService)
         {
-            return new CancelRecurringPaymentResult();
+            _paymentService = paymentService;
+            _webHelper = webHelper;
+            _swedbankPayPaymentSettings = swedbankPayPaymentSettings;
+            _settingService = settingService;
+
         }
 
-        public bool CanRePostProcessPayment(Order order)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
-        public CapturePaymentResult Capture(CapturePaymentRequest capturePaymentRequest)
-        {
-            return new CapturePaymentResult();
-        }
+        #region Utilities
+
+        #endregion
+
+        #region Methods
 
         public decimal GetAdditionalHandlingFee(IList<ShoppingCartItem> cart)
         {
@@ -73,33 +70,20 @@ namespace Nop.Plugin.Payments.SwedbankPay
             throw new NotImplementedException();
         }
 
-        #region Fields
-
-        private readonly IWebHelper _webHelper;
-        private readonly IPaymentService _paymentService;
-        private readonly SwedbankPayPaymentSettings _swedbankPayPaymentSettings;
-
-
-        #endregion
-
-
-        #region Ctor
-
-        public SwedbankPayPaymentProcessor(IPaymentService paymentService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings)
+        public CancelRecurringPaymentResult CancelRecurringPayment(CancelRecurringPaymentRequest cancelPaymentRequest)
         {
-            _paymentService = paymentService;
-            _webHelper = webHelper;
-            _swedbankPayPaymentSettings = swedbankPayPaymentSettings;
-
+            return new CancelRecurringPaymentResult();
         }
 
-        #endregion
+        public bool CanRePostProcessPayment(Order order)
+        {
+            throw new NotImplementedException();
+        }
 
-        #region Utilities
-
-        #endregion
-
-        #region Methods
+        public CapturePaymentResult Capture(CapturePaymentRequest capturePaymentRequest)
+        {
+            return new CapturePaymentResult();
+        }
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest processPaymentRequest)
         {
@@ -133,9 +117,55 @@ namespace Nop.Plugin.Payments.SwedbankPay
         {
             return $"{_webHelper.GetStoreLocation()}Admin/SwedbankPay/Configure";
         }
+
+        /// <summary>
+        /// Install the plugin
+        /// </summary>
+        public override void Install()
+        {
+            //settings
+            _settingService.SaveSetting(new SwedbankPayPaymentSettings
+            {
+                UseSandbox = true
+            });
+            base.Install();
+        }
+
+        /// <summary>
+        /// Uninstall the plugin
+        /// </summary>
+        public override void Uninstall()
+        {
+            //settings
+            _settingService.DeleteSetting<SwedbankPayPaymentSettings>();
+
+            base.Uninstall();
+        }
+
         #endregion
 
         #region Properties
+
+
+        public bool SupportCapture => true;
+
+        public bool SupportPartiallyRefund => true;
+
+        public bool SupportRefund => true;
+
+        public bool SupportVoid => true;
+
+        //TODO: Check this
+        public RecurringPaymentType RecurringPaymentType => RecurringPaymentType.Manual;
+
+        public PaymentMethodType PaymentMethodType => PaymentMethodType.Standard;
+
+        //TODO: Check this
+        public bool SkipPaymentInfo => false;
+
+        //TODO: Check this
+        public string PaymentMethodDescription => "Payment Method Description";
+
 
         #endregion
     }
