@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Services.Configuration;
+using Nop.Services.Localization;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
 using SwedbankPay.Sdk.Payments;
@@ -18,7 +19,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         private readonly IPaymentService _paymentService;
         private readonly SwedbankPayPaymentSettings _swedbankPayPaymentSettings;
         private readonly ISettingService _settingService;
-
+        private readonly ILocalizationService _localizationService;
 
 
         #endregion
@@ -26,7 +27,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
 
         #region Ctor
 
-        public SwedbankPayPaymentProcessor(IPaymentService paymentService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService)
+        public SwedbankPayPaymentProcessor(IPaymentService paymentService, ILocalizationService localizationService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService)
         {
             _paymentService = paymentService;
             _webHelper = webHelper;
@@ -115,7 +116,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         /// </summary>
         public override string GetConfigurationPageUrl()
         {
-            return $"{_webHelper.GetStoreLocation()}Admin/SwedbankPay/Configure";
+            return $"{_webHelper.GetStoreLocation()}Admin/PaymentSwedbankPay/Configure";
         }
 
         /// <summary>
@@ -128,6 +129,21 @@ namespace Nop.Plugin.Payments.SwedbankPay
             {
                 UseSandbox = true
             });
+
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFee", "Additional fee");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFee.Hint", "Enter additional fee to charge your customers.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFeePercentage", "Additional fee. Use percentage");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFeePercentage.Hint", "Determines whether to apply a percentage additional fee to the order total. If not enabled, a fixed value is used.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.BusinessEmail", "Business Email");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.BusinessEmail.Hint", "Specify your PayPal business email.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PassProductNamesAndTotals", "Pass product names and order totals to PayPal");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PassProductNamesAndTotals.Hint", "Check if product names and order totals should be passed to PayPal.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PDTToken", "PDT Identity Token");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PDTToken.Hint", "Specify PDT identity token");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.RedirectionTip", "You will be redirected to PayPal site to complete the order.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.UseSandbox", "Use Sandbox");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.UseSandbox.Hint", "Check to enable Sandbox (testing environment).");
+
             base.Install();
         }
 
@@ -164,7 +180,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public bool SkipPaymentInfo => false;
 
         //TODO: Check this
-        public string PaymentMethodDescription => "Payment Method Description";
+        public string PaymentMethodDescription => _localizationService.GetResource("Payment Method Description");
 
 
         #endregion
