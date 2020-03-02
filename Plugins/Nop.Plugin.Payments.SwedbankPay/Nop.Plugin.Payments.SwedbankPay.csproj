@@ -39,7 +39,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SwedbankPay.Sdk" Version="1.1.0-beta0000" />
+    <PackageReference Include="SwedbankPay.Sdk" Version="1.1.1-beta0000" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />

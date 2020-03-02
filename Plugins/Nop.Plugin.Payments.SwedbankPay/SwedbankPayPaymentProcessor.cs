@@ -87,6 +87,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
 
         public ProcessPaymentResult ProcessPayment(ProcessPaymentRequest processPaymentRequest)
         {
+
             return new ProcessPaymentResult();
         }
 
