@@ -348,4 +348,4 @@ Tests/
 /Deploying.Readme.txt
 /NopCommerce.sln
 src/Plugins/
-!src/Plugins/Nop.Plugin.Payments.SwedbankPay
+!src/Plugins/Nop.Plugin.Payments.SwedbankPay/

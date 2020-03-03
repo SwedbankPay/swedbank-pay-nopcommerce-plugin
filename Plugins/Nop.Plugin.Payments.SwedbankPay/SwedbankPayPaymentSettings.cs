@@ -10,7 +10,19 @@ namespace Nop.Plugin.Payments.SwedbankPay
         /// <summary>
         /// Gets or sets a value indicating whether to use sandbox (testing environment)
         /// </summary>
-        public bool UseSandbox { get; set; }
+        public bool UseDevelopmentMode { get; set; }
+
+        /// <summary>
+        /// Set to "dev", "stage", "internaltest", "externalintegration"
+        /// </summary>
+        public string DevelopmentEnvironment { get; set; }
+
+        public string DevelopmentMerchantToken { get; set; }
+
+        /// <summary>
+        /// Your API token gotten from the Admin pages of SwedbankPay
+        /// </summary>
+        public string MerchantToken { get; set; }
 
         /// <summary>
         /// Gets or sets a business email

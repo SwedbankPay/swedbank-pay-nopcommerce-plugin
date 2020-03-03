@@ -80,19 +80,9 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
             var swedbankPayPaymentSettings = _settingService.LoadSetting<SwedbankPayPaymentSettings>(storeScope);
 
-            var model = new ConfigurationModel
-            {
-                UseSandbox = swedbankPayPaymentSettings.UseSandbox,
-                BusinessEmail = swedbankPayPaymentSettings.BusinessEmail,
-                PdtToken = swedbankPayPaymentSettings.PdtToken,
-                PassProductNamesAndTotals = swedbankPayPaymentSettings.PassProductNamesAndTotals,
-                AdditionalFee = swedbankPayPaymentSettings.AdditionalFee,
-                AdditionalFeePercentage = swedbankPayPaymentSettings.AdditionalFeePercentage,
-                ActiveStoreScopeConfiguration = storeScope
-            };
 
             if (storeScope <= 0)
-                return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", model);
+                return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettings);
 
             model.UseSandbox_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.UseSandbox, storeScope);
             model.BusinessEmail_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.BusinessEmail, storeScope);
@@ -101,7 +91,7 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             model.AdditionalFee_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFee, storeScope);
             model.AdditionalFeePercentage_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
 
-            return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", model);
+            return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettings);
         }
     }
 }
