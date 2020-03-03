@@ -3,7 +3,7 @@
 namespace Nop.Plugin.Payments.SwedbankPay
 {
     /// <summary>
-    /// Represents settings of the PayPal Standard payment plugin
+    /// Represents settings of the Swedbank Pay plugin
     /// </summary>
     public class SwedbankPayPaymentSettings : ISettings
     {
@@ -23,7 +23,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public string PdtToken { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to pass info about purchased items to PayPal
+        /// Gets or sets a value indicating whether to pass info about purchased items to Swedbank Pay
         /// </summary>
         public bool PassProductNamesAndTotals { get; set; }
 

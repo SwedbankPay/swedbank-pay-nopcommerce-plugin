@@ -13,12 +13,12 @@
 	});
 
     function togglePassProductNamesAndTotals() {
-        warningValidation('@Url.Action("RoundingWarning", "PaymentPayPalStandard")', '@Html.NameFor(model => model.PassProductNamesAndTotals)',
+        warningValidation('@Url.Action("RoundingWarning", "PaymentSwedbankPay")', '@Html.NameFor(model => model.PassProductNamesAndTotals)',
             { passProductNamesAndTotals: $('#@Html.IdFor(model => model.PassProductNamesAndTotals)').is(':checked') });
     }
 </script>
 
-<form asp-controller="PaymentPayPalStandard" asp-action="Configure" method="post">
+<form asp-controller="PaymentSwedbankPay" asp-action="Configure" method="post">
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-body">

@@ -7,7 +7,7 @@ using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
-using SwedbankPay.Sdk.Payments;
+using SwedbankPay.Sdk;
 
 namespace Nop.Plugin.Payments.SwedbankPay
 {
@@ -20,6 +20,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         private readonly SwedbankPayPaymentSettings _swedbankPayPaymentSettings;
         private readonly ISettingService _settingService;
         private readonly ILocalizationService _localizationService;
+        private readonly ISwedbankPayClient _swedbankPayClient;
 
 
         #endregion
@@ -27,12 +28,13 @@ namespace Nop.Plugin.Payments.SwedbankPay
 
         #region Ctor
 
-        public SwedbankPayPaymentProcessor(IPaymentService paymentService, ILocalizationService localizationService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService)
+        public SwedbankPayPaymentProcessor(IPaymentService paymentService, ILocalizationService localizationService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService, ISwedbankPayClient swedbankPayClient)
         {
             _paymentService = paymentService;
             _webHelper = webHelper;
             _swedbankPayPaymentSettings = swedbankPayPaymentSettings;
             _settingService = settingService;
+            _swedbankPayClient = swedbankPayClient;
 
         }
 
@@ -130,19 +132,24 @@ namespace Nop.Plugin.Payments.SwedbankPay
                 UseSandbox = true
             });
 
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFee", "Additional fee");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFee.Hint", "Enter additional fee to charge your customers.");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFeePercentage", "Additional fee. Use percentage");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.AdditionalFeePercentage.Hint", "Determines whether to apply a percentage additional fee to the order total. If not enabled, a fixed value is used.");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.BusinessEmail", "Business Email");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.BusinessEmail.Hint", "Specify your PayPal business email.");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PassProductNamesAndTotals", "Pass product names and order totals to PayPal");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PassProductNamesAndTotals.Hint", "Check if product names and order totals should be passed to PayPal.");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PDTToken", "PDT Identity Token");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.PDTToken.Hint", "Specify PDT identity token");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.RedirectionTip", "You will be redirected to Swedbank Pay site to complete the order.");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.UseSandbox", "Use Sandbox");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.PayPalStandard.Fields.UseSandbox.Hint", "Check to enable Sandbox (testing environment).");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.AdditionalFee", "Additional fee");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.AdditionalFee.Hint", "Enter additional fee to charge your customers.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.AdditionalFeePercentage", "Additional fee. Use percentage");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.AdditionalFeePercentage.Hint", "Determines whether to apply a percentage additional fee to the order total. If not enabled, a fixed value is used.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.BusinessEmail", "Business Email");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.BusinessEmail.Hint", "Specify your Swedbank Pay business email.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PassProductNamesAndTotals", "Pass product names and order totals to Swedbank Pay");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PassProductNamesAndTotals.Hint", "Check if product names and order totals should be passed to Swedbank Pay.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PDTToken", "PDT Identity Token");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PDTToken.Hint", "Specify PDT identity token");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.RedirectionTip", "You will be redirected to Swedbank Pay site to complete the order.");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.UseSandbox", "Use Sandbox");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.UseSandbox.Hint", "Check to enable Sandbox (testing environment).");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.Hint", "Pay with Swedbank Pay");
+            //_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.Redirect", "");
+            //_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.SeamlessView", "");
+            //_localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.Direct", ""
+
 
             base.Install();
         }
@@ -180,7 +187,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public bool SkipPaymentInfo => false;
 
         //TODO: Check this
-        public string PaymentMethodDescription => _localizationService.GetResource("Payment Method Description");
+        public string PaymentMethodDescription => _localizationService.GetResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.Hint");
 
 
         #endregion
