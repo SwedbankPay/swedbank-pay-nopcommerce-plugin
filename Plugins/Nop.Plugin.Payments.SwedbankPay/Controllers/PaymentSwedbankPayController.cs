@@ -94,7 +94,7 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             };
 
             if (storeScope <= 0)
-                return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettings);
+                return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettingsModel);
 
             swedbankPayPaymentSettingsModel.UseDevelopmentMode_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.UseDevelopmentMode, storeScope);
             swedbankPayPaymentSettingsModel.DevelopmentEnvironment_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.DevelopmentEnvironment, storeScope);
@@ -106,6 +106,51 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             swedbankPayPaymentSettingsModel.AdditionalFeePercentage_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
 
             return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettings);
+        }
+
+        [HttpPost]
+        [AuthorizeAdmin]
+        [Area(AreaNames.Admin)]
+        public IActionResult Configure(ConfigurationModel model)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManagePaymentMethods))
+                return AccessDeniedView();
+
+            if (!ModelState.IsValid)
+                return Configure();
+
+            //load settings for a chosen store scope
+            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
+            var swedbankPayPaymentSettings = _settingService.LoadSetting<SwedbankPayPaymentSettings>(storeScope);
+
+            //save settings
+            swedbankPayPaymentSettings.UseDevelopmentMode = model.UseDevelopmentMode;
+            swedbankPayPaymentSettings.DevelopmentEnvironment = model.DevelopmentEnvironment;
+            swedbankPayPaymentSettings.DevelopmentMerchantToken = model.DevelopmentMerchantToken;
+            swedbankPayPaymentSettings.BusinessEmail = model.BusinessEmail;
+            swedbankPayPaymentSettings.MerchantToken = model.MerchantToken;
+            swedbankPayPaymentSettings.PassProductNamesAndTotals = model.PassProductNamesAndTotals;
+            swedbankPayPaymentSettings.AdditionalFee = model.AdditionalFee;
+            swedbankPayPaymentSettings.AdditionalFeePercentage = model.AdditionalFeePercentage;
+
+            /* We do not clear cache after each setting update.
+             * This behavior can increase performance because cached settings will not be cleared 
+             * and loaded from database after each update */
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.UseDevelopmentMode, model.UseDevelopmentMode_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.DevelopmentEnvironment, model.DevelopmentEnvironment_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.DevelopmentMerchantToken, model.DevelopmentMerchantToken_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.BusinessEmail, model.BusinessEmail_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.MerchantToken, model.MerchantToken_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.PassProductNamesAndTotals, model.PassProductNamesAndTotals_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.AdditionalFee, model.AdditionalFee_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.AdditionalFeePercentage, model.AdditionalFeePercentage_OverrideForStore, storeScope, false);
+
+            //now clear settings cache
+            _settingService.ClearCache();
+
+            _notificationService.SuccessNotification(_localizationService.GetResource("Admin.Plugins.Saved"));
+
+            return Configure();
         }
     }
 }

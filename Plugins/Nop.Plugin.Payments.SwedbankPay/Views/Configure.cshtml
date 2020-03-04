@@ -1,4 +1,4 @@
-﻿@model Nop.Plugin.Payments.SwedbankPay.SwedbankPayPaymentSettings
+﻿@model Nop.Plugin.Payments.SwedbankPay.Models.ConfigurationModel
 @inject Nop.Core.IWebHelper webHelper
 @{
     Layout = "_ConfigurePlugin";
@@ -23,19 +23,10 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 @Html.Raw(T("Plugins.Payments.SwedbankPay.Instructions", $"{webHelper.GetStoreLocation()}Plugins/SwedbankPay/PDTHandler"))
+  
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="UseDevelopmentMode_OverrideForStore" asp-input="UseDevelopmentMode" asp-store-scope="@Model.UseDevelopmentMode" />
-                        <nop-label asp-for="UseDevelopmentMode" />
-                    </div>
-                    <div class="col-md-9">
-                        <nop-editor asp-for="UseDevelopmentMode" />
-                        <span asp-validation-for="UseDevelopmentMode"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="DevelopmentEnvironment_OverrideForStore" asp-input="DevelopmentEnvironment" asp-store-scope="@Model.DevelopmentEnvironment" />
+                        <nop-override-store-checkbox asp-for="DevelopmentEnvironment_OverrideForStore" asp-input="DevelopmentEnvironment" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="DevelopmentEnvironment" />
                     </div>
                     <div class="col-md-9">
@@ -45,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="DevelopmentMerchantToken_OverrideForStore" asp-input="DevelopmentMerchantToken" asp-store-scope="@Model.DevelopmentMerchantToken" />
+                        <nop-override-store-checkbox asp-for="DevelopmentMerchantToken_OverrideForStore" asp-input="DevelopmentMerchantToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="DevelopmentMerchantToken" />
                     </div>
                     <div class="col-md-9">
@@ -55,7 +46,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="BusinessEmail_OverrideForStore" asp-input="BusinessEmail" asp-store-scope="@Model.BusinessEmail" />
+                        <nop-override-store-checkbox asp-for="BusinessEmail_OverrideForStore" asp-input="BusinessEmail" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="BusinessEmail" />
                     </div>
                     <div class="col-md-9">
@@ -65,7 +56,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="MerchantToken_OverrideForStore" asp-input="PdtToken" asp-store-scope="@Model.MerchantToken" />
+                        <nop-override-store-checkbox asp-for="MerchantToken_OverrideForStore" asp-input="MerchantToken" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="MerchantToken" />
                     </div>
                     <div class="col-md-9">
@@ -75,7 +66,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="PassProductNamesAndTotals_OverrideForStore" asp-input="PassProductNamesAndTotals" asp-store-scope="@Model.PassProductNamesAndTotals" />
+                        <nop-override-store-checkbox asp-for="PassProductNamesAndTotals_OverrideForStore" asp-input="PassProductNamesAndTotals" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="PassProductNamesAndTotals" />
                     </div>
                     <div class="col-md-9">
@@ -85,7 +76,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="AdditionalFee_OverrideForStore" asp-input="AdditionalFee" asp-store-scope="@Model.AdditionalFee" />
+                        <nop-override-store-checkbox asp-for="AdditionalFee_OverrideForStore" asp-input="AdditionalFee" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="AdditionalFee" />
                     </div>
                     <div class="col-md-9">
@@ -95,7 +86,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <nop-override-store-checkbox asp-for="AdditionalFeePercentage_OverrideForStore" asp-input="AdditionalFeePercentage" asp-store-scope="@Model.AdditionalFeePercentage" />
+                        <nop-override-store-checkbox asp-for="AdditionalFeePercentage_OverrideForStore" asp-input="AdditionalFeePercentage" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
                         <nop-label asp-for="AdditionalFeePercentage" />
                     </div>
                     <div class="col-md-9">
