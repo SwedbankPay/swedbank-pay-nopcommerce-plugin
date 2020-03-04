@@ -80,16 +80,30 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             var storeScope = _storeContext.ActiveStoreScopeConfiguration;
             var swedbankPayPaymentSettings = _settingService.LoadSetting<SwedbankPayPaymentSettings>(storeScope);
 
+            var swedbankPayPaymentSettingsModel = new ConfigurationModel
+            {
+                UseDevelopmentMode = swedbankPayPaymentSettings.UseDevelopmentMode,
+                DevelopmentEnvironment = swedbankPayPaymentSettings.DevelopmentEnvironment,
+                DevelopmentMerchantToken = swedbankPayPaymentSettings.DevelopmentMerchantToken,
+                MerchantToken = swedbankPayPaymentSettings.MerchantToken,
+                BusinessEmail = swedbankPayPaymentSettings.BusinessEmail,
+                PassProductNamesAndTotals = swedbankPayPaymentSettings.PassProductNamesAndTotals,
+                AdditionalFee = swedbankPayPaymentSettings.AdditionalFee,
+                AdditionalFeePercentage = swedbankPayPaymentSettings.AdditionalFeePercentage,
+                ActiveStoreScopeConfiguration = storeScope
+            };
 
             if (storeScope <= 0)
                 return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettings);
 
-            model.UseSandbox_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.UseSandbox, storeScope);
-            model.BusinessEmail_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.BusinessEmail, storeScope);
-            model.PdtToken_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.PdtToken, storeScope);
-            model.PassProductNamesAndTotals_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.PassProductNamesAndTotals, storeScope);
-            model.AdditionalFee_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFee, storeScope);
-            model.AdditionalFeePercentage_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
+            swedbankPayPaymentSettingsModel.UseDevelopmentMode_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.UseDevelopmentMode, storeScope);
+            swedbankPayPaymentSettingsModel.DevelopmentEnvironment_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.DevelopmentEnvironment, storeScope);
+            swedbankPayPaymentSettingsModel.DevelopmentMerchantToken_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.DevelopmentMerchantToken, storeScope);
+            swedbankPayPaymentSettingsModel.MerchantToken_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.MerchantToken, storeScope);
+            swedbankPayPaymentSettingsModel.BusinessEmail_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.BusinessEmail, storeScope);
+            swedbankPayPaymentSettingsModel.PassProductNamesAndTotals_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.PassProductNamesAndTotals, storeScope);
+            swedbankPayPaymentSettingsModel.AdditionalFee_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFee, storeScope);
+            swedbankPayPaymentSettingsModel.AdditionalFeePercentage_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
 
             return View("~/Plugins/Payments.SwedbankPay/Views/Configure.cshtml", swedbankPayPaymentSettings);
         }

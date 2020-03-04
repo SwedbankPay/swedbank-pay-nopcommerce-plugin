@@ -7,17 +7,25 @@ namespace Nop.Plugin.Payments.SwedbankPay.Models
     {
         public int ActiveStoreScopeConfiguration { get; set; }
 
-        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.UseSandbox")]
-        public bool UseSandbox { get; set; }
-        public bool UseSandbox_OverrideForStore { get; set; }
+        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.UseDevelopmentMode")]
+        public bool UseDevelopmentMode { get; set; }
+        public bool UseDevelopmentMode_OverrideForStore { get; set; }
+
+        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.DevelopmentEnvironment")]
+        public string DevelopmentEnvironment { get; set; }
+        public bool DevelopmentEnvironment_OverrideForStore { get; set; }
+
+        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.DevelopmentMerchantToken")]
+        public string DevelopmentMerchantToken { get; set; }
+        public bool DevelopmentMerchantToken_OverrideForStore { get; set; }
+
+        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.MerchantToken")]
+        public string MerchantToken { get; set; }
+        public bool MerchantToken_OverrideForStore { get; set; }
 
         [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.BusinessEmail")]
         public string BusinessEmail { get; set; }
         public bool BusinessEmail_OverrideForStore { get; set; }
-
-        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.PDTToken")]
-        public string PdtToken { get; set; }
-        public bool PdtToken_OverrideForStore { get; set; }
 
         [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.PassProductNamesAndTotals")]
         public bool PassProductNamesAndTotals { get; set; }

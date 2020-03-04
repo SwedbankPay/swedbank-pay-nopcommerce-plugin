@@ -31,6 +31,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public SwedbankPayPaymentProcessor(IPaymentService paymentService, ILocalizationService localizationService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService, ISwedbankPayClient swedbankPayClient)
         {
             _paymentService = paymentService;
+            _localizationService = localizationService;
             _webHelper = webHelper;
             _swedbankPayPaymentSettings = swedbankPayPaymentSettings;
             _settingService = settingService;
@@ -129,7 +130,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
             //settings
             _settingService.SaveSetting(new SwedbankPayPaymentSettings
             {
-                UseSandbox = true
+                UseDevelopmentMode = true
             });
 
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Payments.SwedbankPay.Fields.AdditionalFee", "Additional fee");

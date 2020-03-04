@@ -30,11 +30,6 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public string BusinessEmail { get; set; }
 
         /// <summary>
-        /// Gets or sets PDT identity token
-        /// </summary>
-        public string PdtToken { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether to pass info about purchased items to Swedbank Pay
         /// </summary>
         public bool PassProductNamesAndTotals { get; set; }

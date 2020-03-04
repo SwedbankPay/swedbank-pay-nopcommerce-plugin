@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using Autofac;
+using Autofac.Core;
+using Nop.Core;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
@@ -18,8 +20,10 @@ namespace Nop.Plugin.Payments.SwedbankPay
         {
             builder.Register<ISwedbankPayClient>(ctx =>
             {
+                var storeContext = ctx.Resolve<IStoreContext>();
                 var settingsService = ctx.Resolve<ISettingService>();
-                var configModel = settingsService.LoadSetting<SwedbankPayPaymentSettings>();
+                
+                var configModel = settingsService.LoadSetting<SwedbankPayPaymentSettings>(storeContext.ActiveStoreScopeConfiguration);
 
                 Uri baseUri;
                 string merchantToken;
@@ -27,11 +31,11 @@ namespace Nop.Plugin.Payments.SwedbankPay
                 if(configModel.UseDevelopmentMode)
                 {
                     baseUri = new Uri($"https://{configModel.DevelopmentEnvironment}.api.payex.com");
-                    merchantToken = configModel.DevelopmentMerchantToken;
+                    merchantToken = configModel.DevelopmentMerchantToken ?? "MissingTokenxxxxx";
                 } else
                 {
                     baseUri = new Uri("https://api.payex.com");
-                    merchantToken = configModel.MerchantToken;
+                    merchantToken = configModel.MerchantToken ?? "MissingTokenxxxxx";
                 }
 
                 var client = new HttpClient() { BaseAddress = baseUri };
