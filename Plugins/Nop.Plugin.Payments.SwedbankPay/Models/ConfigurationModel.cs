@@ -1,5 +1,6 @@
 ﻿using Nop.Web.Framework.Mvc.ModelBinding;
 using Nop.Web.Framework.Models;
+using System;
 
 namespace Nop.Plugin.Payments.SwedbankPay.Models
 {
@@ -10,6 +11,10 @@ namespace Nop.Plugin.Payments.SwedbankPay.Models
         [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.UseDevelopmentMode")]
         public bool UseDevelopmentMode { get; set; }
         public bool UseDevelopmentMode_OverrideForStore { get; set; }
+
+        [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.MerchantId")]
+        public Guid MerchantId { get; set; }
+        public bool MerchantId_OverrideForStore { get; set; }
 
         [NopResourceDisplayName("Plugins.Payments.SwedbankPay.Fields.DevelopmentEnvironment")]
         public string DevelopmentEnvironment { get; set; }

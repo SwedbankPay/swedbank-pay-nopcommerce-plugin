@@ -84,6 +84,7 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             {
                 UseDevelopmentMode = swedbankPayPaymentSettings.UseDevelopmentMode,
                 DevelopmentEnvironment = swedbankPayPaymentSettings.DevelopmentEnvironment,
+                MerchantId = swedbankPayPaymentSettings.MerchantId,
                 DevelopmentMerchantToken = swedbankPayPaymentSettings.DevelopmentMerchantToken,
                 MerchantToken = swedbankPayPaymentSettings.MerchantToken,
                 BusinessEmail = swedbankPayPaymentSettings.BusinessEmail,
@@ -98,6 +99,7 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
 
             swedbankPayPaymentSettingsModel.UseDevelopmentMode_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.UseDevelopmentMode, storeScope);
             swedbankPayPaymentSettingsModel.DevelopmentEnvironment_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.DevelopmentEnvironment, storeScope);
+            swedbankPayPaymentSettingsModel.MerchantId_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.MerchantId, storeScope);
             swedbankPayPaymentSettingsModel.DevelopmentMerchantToken_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.DevelopmentMerchantToken, storeScope);
             swedbankPayPaymentSettingsModel.MerchantToken_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.MerchantToken, storeScope);
             swedbankPayPaymentSettingsModel.BusinessEmail_OverrideForStore = _settingService.SettingExists(swedbankPayPaymentSettings, x => x.BusinessEmail, storeScope);
@@ -126,6 +128,7 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
             //save settings
             swedbankPayPaymentSettings.UseDevelopmentMode = model.UseDevelopmentMode;
             swedbankPayPaymentSettings.DevelopmentEnvironment = model.DevelopmentEnvironment;
+            swedbankPayPaymentSettings.MerchantId = model.MerchantId;
             swedbankPayPaymentSettings.DevelopmentMerchantToken = model.DevelopmentMerchantToken;
             swedbankPayPaymentSettings.BusinessEmail = model.BusinessEmail;
             swedbankPayPaymentSettings.MerchantToken = model.MerchantToken;
@@ -138,6 +141,7 @@ namespace Nop.Plugin.Payments.SwedbankPay.Controllers
              * and loaded from database after each update */
             _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.UseDevelopmentMode, model.UseDevelopmentMode_OverrideForStore, storeScope, false);
             _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.DevelopmentEnvironment, model.DevelopmentEnvironment_OverrideForStore, storeScope, false);
+            _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.MerchantId, model.MerchantId_OverrideForStore, storeScope, false);
             _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.DevelopmentMerchantToken, model.DevelopmentMerchantToken_OverrideForStore, storeScope, false);
             _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.BusinessEmail, model.BusinessEmail_OverrideForStore, storeScope, false);
             _settingService.SaveSettingOverridablePerStore(swedbankPayPaymentSettings, x => x.MerchantToken, model.MerchantToken_OverrideForStore, storeScope, false);

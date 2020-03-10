@@ -27,11 +27,13 @@ namespace Nop.Plugin.Payments.SwedbankPay
 
                 Uri baseUri;
                 string merchantToken;
+                string payeeId;
 
                 if(configModel.UseDevelopmentMode)
                 {
-                    baseUri = new Uri($"https://{configModel.DevelopmentEnvironment}.api.payex.com");
+                    baseUri = new Uri($"https://api.{configModel.DevelopmentEnvironment}.payex.com");
                     merchantToken = configModel.DevelopmentMerchantToken ?? "MissingTokenxxxxx";
+                    payeeId = configModel.MerchantId.ToString() ?? "Missing MerchantId";
                 } else
                 {
                     baseUri = new Uri("https://api.payex.com");
@@ -42,7 +44,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", merchantToken);
 
                 return new SwedbankPayClient(client);
-            }).InstancePerLifetimeScope();
+            }).InstancePerDependency();
         }
     }
 }

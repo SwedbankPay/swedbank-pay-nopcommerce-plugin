@@ -23,7 +23,17 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 @Html.Raw(T("Plugins.Payments.SwedbankPay.Instructions", $"{webHelper.GetStoreLocation()}Plugins/SwedbankPay/PDTHandler"))
-  
+
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="UseDevelopmentMode_OverrideForStore" asp-input="UseDevelopmentMode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="UseDevelopmentMode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseDevelopmentMode" />
+                        <span asp-validation-for="UseDevelopmentMode"></span>
+                    </div>
+                </div>
                 <div class="form-group">
                     <div class="col-md-3">
                         <nop-override-store-checkbox asp-for="DevelopmentEnvironment_OverrideForStore" asp-input="DevelopmentEnvironment" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
@@ -32,6 +42,16 @@
                     <div class="col-md-9">
                         <nop-editor asp-for="DevelopmentEnvironment" />
                         <span asp-validation-for="DevelopmentEnvironment"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="MerchantId_OverrideForStore" asp-input="MerchantId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="MerchantId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="MerchantId" />
+                        <span asp-validation-for="MerchantId"></span>
                     </div>
                 </div>
                 <div class="form-group">

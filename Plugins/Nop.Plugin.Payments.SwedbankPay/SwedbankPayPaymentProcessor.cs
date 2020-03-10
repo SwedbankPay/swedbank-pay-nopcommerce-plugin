@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Services.Configuration;
@@ -8,6 +9,7 @@ using Nop.Services.Localization;
 using Nop.Services.Payments;
 using Nop.Services.Plugins;
 using SwedbankPay.Sdk;
+using SwedbankPay.Sdk.PaymentOrders;
 
 namespace Nop.Plugin.Payments.SwedbankPay
 {
@@ -21,6 +23,8 @@ namespace Nop.Plugin.Payments.SwedbankPay
         private readonly ISettingService _settingService;
         private readonly ILocalizationService _localizationService;
         private readonly ISwedbankPayClient _swedbankPayClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
 
         #endregion
@@ -28,7 +32,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
 
         #region Ctor
 
-        public SwedbankPayPaymentProcessor(IPaymentService paymentService, ILocalizationService localizationService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService, ISwedbankPayClient swedbankPayClient)
+        public SwedbankPayPaymentProcessor(IPaymentService paymentService, ILocalizationService localizationService, IWebHelper webHelper, SwedbankPayPaymentSettings swedbankPayPaymentSettings, ISettingService settingService, ISwedbankPayClient swedbankPayClient, IHttpContextAccessor httpContextAccessor)
         {
             _paymentService = paymentService;
             _localizationService = localizationService;
@@ -36,6 +40,8 @@ namespace Nop.Plugin.Payments.SwedbankPay
             _swedbankPayPaymentSettings = swedbankPayPaymentSettings;
             _settingService = settingService;
             _swedbankPayClient = swedbankPayClient;
+            _httpContextAccessor = httpContextAccessor;
+
 
         }
 
@@ -68,10 +74,48 @@ namespace Nop.Plugin.Payments.SwedbankPay
             return false;
         }
 
+        public static Guid ToGuid(int value)
+        {
+            byte[] bytes = new byte[16];
+            BitConverter.GetBytes(value).CopyTo(bytes, 0);
+            return new Guid(bytes);
+        }
+
         //TODO: Check this
         public void PostProcessPayment(PostProcessPaymentRequest postProcessPaymentRequest)
         {
-            throw new NotImplementedException();
+            var lugn = System.IO.File.ReadAllText(System.IO.Directory.GetCurrentDirectory() + "\\plugins\\Payments.SwedbankPay\\plugin.json");
+            var tests = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(lugn);
+            var version = tests["Version"];
+            //var payeeId = settingsService.LoadSetting<SwedbankPayPaymentSettings>(storeContext.ActiveStoreScopeConfiguration)
+
+
+
+
+            var operation = Operation.Purchase;
+            var currency = new CurrencyCode(postProcessPaymentRequest.Order.CustomerCurrencyCode);
+            var amount = Amount.FromDecimal(postProcessPaymentRequest.Order.OrderTotal);
+            var vatAmount = Amount.FromDecimal(postProcessPaymentRequest.Order.OrderTax);
+            string description = postProcessPaymentRequest.Order.CheckoutAttributeDescription;
+            string userAgent = $"{System.Reflection.Assembly.GetExecutingAssembly().FullName}/{version}";
+            var language = new System.Globalization.CultureInfo("nb-no");
+            //var language = new System.Globalization.CultureInfo(postProcessPaymentRequest.Order.CustomerLanguageId);
+            bool generateRecurrenceToken = false;
+            var hostUrls = new List<Uri>();
+            hostUrls.Add(new Uri(_webHelper.GetStoreLocation()));
+            var urls = new Urls(hostUrls,new Uri(GetCompleteUrl()), new Uri(GetTermsOfServiceUrl()), new Uri(GetCancelPaymentUrl()));
+            var payeeInfo = new PayeeInfo(_swedbankPayPaymentSettings.MerchantId, postProcessPaymentRequest.Order.CustomOrderNumber);
+            //var payeeId = _swedbankPayPaymentSettings.MerchantId;
+
+            
+
+
+            var paymentOrder = new PaymentOrderRequest(operation, currency, amount, vatAmount, description, userAgent, language, generateRecurrenceToken, urls, payeeInfo);
+            var paymentOrderResponse= _swedbankPayClient.PaymentOrders.Create(paymentOrder).Result;
+           
+
+            
+            _httpContextAccessor.HttpContext.Response.Redirect(paymentOrderResponse.Operations.View.Href.AbsoluteUri);
         }
 
         public CancelRecurringPaymentResult CancelRecurringPayment(CancelRecurringPaymentRequest cancelPaymentRequest)
@@ -120,6 +164,22 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public override string GetConfigurationPageUrl()
         {
             return $"{_webHelper.GetStoreLocation()}Admin/PaymentSwedbankPay/Configure";
+        }
+
+        public string GetCompleteUrl()
+        {
+            return $"{_webHelper.GetStoreLocation()}/PaymentSwedbankPay/PaymentComplete";
+        }
+
+        public string GetTermsOfServiceUrl()
+        {
+            
+            return $"{_webHelper.GetStoreLocation(true)}/PaymentSwedbankPay/TermsOfService";
+        }
+
+        public string GetCancelPaymentUrl()
+        {
+            return $"{_webHelper.GetStoreLocation()}/PaymentSwedbankPay/CancelPage";
         }
 
         /// <summary>

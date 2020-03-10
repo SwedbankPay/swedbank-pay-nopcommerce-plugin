@@ -1,4 +1,5 @@
-﻿using Nop.Core.Configuration;
+﻿using System;
+using Nop.Core.Configuration;
 
 namespace Nop.Plugin.Payments.SwedbankPay
 {
@@ -16,6 +17,8 @@ namespace Nop.Plugin.Payments.SwedbankPay
         /// Set to "dev", "stage", "internaltest", "externalintegration"
         /// </summary>
         public string DevelopmentEnvironment { get; set; }
+
+        public Guid MerchantId { get; set; }
 
         public string DevelopmentMerchantToken { get; set; }
 
