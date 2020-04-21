@@ -1,0 +1,11 @@
+{
+  "Group": "Payment methods",
+  "FriendlyName": "SwedbankPay Checkout",
+  "SystemName": "Payments.SwedbankPayCheckout",
+  "Version": "1.0",
+  "SupportedVersions": ["4.30" ],
+  "Author": "Mimir team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Payments.SwedbankPayCheckout.dll",
+  "Description": "This plugin allows paying with SwedbankPay Checkout Checkthis"
+}
