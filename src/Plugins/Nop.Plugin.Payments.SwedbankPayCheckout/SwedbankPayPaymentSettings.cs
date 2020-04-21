@@ -1,5 +1,5 @@
 ﻿using System;
-using NuGet;
+using Nop.Core.Configuration;
 
 namespace Nop.Plugin.Payments.SwedbankPay
 {

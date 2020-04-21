@@ -6,7 +6,6 @@ using Nop.Core;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
-using Nop.Plugin.Payments.SwedbankPay.Models;
 using Nop.Services.Configuration;
 using SwedbankPay.Sdk;
 

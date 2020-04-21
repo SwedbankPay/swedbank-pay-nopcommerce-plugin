@@ -65,7 +65,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Payments.PayPalS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Widgets.FacebookPixel", "Plugins\Nop.Plugin.Widgets.FacebookPixel\Nop.Plugin.Widgets.FacebookPixel.csproj", "{87013DC8-D032-465B-A950-753E4EB15502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Payments.SwedbankPayCheckout", "Nop.Plugin.Payments.SwedbankPayCheckout\Nop.Plugin.Payments.SwedbankPayCheckout.csproj", "{906FFEA0-16CA-4783-B957-3D1018B4951B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Payments.SwedbankPayCheckout", "Plugins\Nop.Plugin.Payments.SwedbankPayCheckout\Nop.Plugin.Payments.SwedbankPay.csproj", "{906FFEA0-16CA-4783-B957-3D1018B4951B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

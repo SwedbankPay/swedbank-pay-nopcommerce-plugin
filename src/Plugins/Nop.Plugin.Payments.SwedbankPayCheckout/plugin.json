@@ -1,9 +1,9 @@
 {
   "Group": "Payment methods",
-  "FriendlyName": "SwedbankPay Payments",
+  "FriendlyName": "SwedbankPay Checkout",
   "SystemName": "Payments.SwedbankPay",
   "Version": "1.0",
-  "SupportedVersions": [ "4.20", "4.30" ],
+  "SupportedVersions": ["4.30" ],
   "Author": "Mimir team",
   "DisplayOrder": 1,
   "FileName": "Nop.Plugin.Payments.SwedbankPay.dll",

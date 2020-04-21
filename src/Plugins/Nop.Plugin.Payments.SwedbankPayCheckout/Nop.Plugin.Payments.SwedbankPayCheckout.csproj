@@ -36,9 +36,9 @@
   <ItemGroup>
     <PackageReference Include="SwedbankPay.Sdk" Version="1.2.0-beta0000" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\Presentation\Nop.Web\Nop.Web.csproj" />
+    <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
   </ItemGroup>
   <Target Name="NopTarget" AfterTargets="Build">
      <!--Delete unnecessary libraries from plugins path--> 

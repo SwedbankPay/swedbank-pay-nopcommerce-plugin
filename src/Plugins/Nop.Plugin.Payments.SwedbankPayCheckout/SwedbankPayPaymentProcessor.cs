@@ -7,13 +7,13 @@ using Nop.Core.Domain.Orders;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
 using Nop.Services.Payments;
-using Nop.Services.Plugins;
 using SwedbankPay.Sdk;
 using SwedbankPay.Sdk.PaymentOrders;
+using Nop.Services.Plugins;
 
 namespace Nop.Plugin.Payments.SwedbankPay
 {
-    public class SwedbankPayPaymentProcessor : BasePlugin, IPaymentMethod
+    class SwedbankPayPaymentProcessor : BasePlugin
     {
         #region Fields
 
@@ -43,6 +43,10 @@ namespace Nop.Plugin.Payments.SwedbankPay
             _httpContextAccessor = httpContextAccessor;
 
 
+        }
+
+        public SwedbankPayPaymentProcessor()
+        {
         }
 
         #endregion
@@ -103,18 +107,18 @@ namespace Nop.Plugin.Payments.SwedbankPay
             bool generateRecurrenceToken = false;
             var hostUrls = new List<Uri>();
             hostUrls.Add(new Uri(_webHelper.GetStoreLocation()));
-            var urls = new Urls(hostUrls,new Uri(GetCompleteUrl()), new Uri(GetTermsOfServiceUrl()), new Uri(GetCancelPaymentUrl()));
+            var urls = new Urls(hostUrls, new Uri(GetCompleteUrl()), new Uri(GetTermsOfServiceUrl()), new Uri(GetCancelPaymentUrl()));
             var payeeInfo = new PayeeInfo(_swedbankPayPaymentSettings.MerchantId, postProcessPaymentRequest.Order.CustomOrderNumber);
             //var payeeId = _swedbankPayPaymentSettings.MerchantId;
 
-            
+
 
 
             var paymentOrder = new PaymentOrderRequest(operation, currency, amount, vatAmount, description, userAgent, language, generateRecurrenceToken, urls, payeeInfo);
-            var paymentOrderResponse= _swedbankPayClient.PaymentOrders.Create(paymentOrder).Result;
-           
+            var paymentOrderResponse = _swedbankPayClient.PaymentOrders.Create(paymentOrder).Result;
 
-            
+
+
             _httpContextAccessor.HttpContext.Response.Redirect(paymentOrderResponse.Operations.View.Href.AbsoluteUri);
         }
 
@@ -173,7 +177,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
 
         public string GetTermsOfServiceUrl()
         {
-            
+
             return $"{_webHelper.GetStoreLocation(true)}/PaymentSwedbankPay/TermsOfService";
         }
 
@@ -187,6 +191,7 @@ namespace Nop.Plugin.Payments.SwedbankPay
         /// </summary>
         public override void Install()
         {
+
             //settings
             _settingService.SaveSetting(new SwedbankPayPaymentSettings
             {
@@ -248,7 +253,8 @@ namespace Nop.Plugin.Payments.SwedbankPay
         public bool SkipPaymentInfo => false;
 
         //TODO: Check this
-        public string PaymentMethodDescription => _localizationService.GetResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.Hint");
+        public string PaymentMethodDescription => "SwedbankPay";
+        //_localizationService.GetResource("Plugins.Payments.SwedbankPay.Fields.PaymentMethodDescription.Hint");
 
 
         #endregion

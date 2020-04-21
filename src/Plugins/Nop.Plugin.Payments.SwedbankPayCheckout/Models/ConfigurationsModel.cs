@@ -2,7 +2,7 @@
 using Nop.Web.Framework.Models;
 using System;
 
-namespace Nop.Plugin.Payments.SwedbankPayCheckout.Models
+namespace Nop.Plugin.Payments.SwedbankPay.Models
 {
     public class ConfigurationModel : BaseNopModel
     {
