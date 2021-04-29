@@ -1,0 +1,88 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Oslo
+  open-pull-requests-limit: 99
+  reviewers:
+  - trieutran91
+  assignees:
+  - trieutran91
+  ignore:
+  - dependency-name: FluentValidation.AspNetCore
+    versions:
+    - 10.0.0
+    - 10.0.1
+    - 10.0.2
+    - 10.0.3
+    - 10.0.4
+    - 9.4.0
+    - 9.5.0
+    - 9.5.1
+    - 9.5.2
+    - 9.5.3
+    - 9.5.4
+  - dependency-name: EPPlus
+    versions:
+    - 5.5.2
+    - 5.5.3
+    - 5.5.4
+    - 5.5.5
+    - 5.6.0
+    - 5.6.1
+    - 5.6.2
+  - dependency-name: Avalara.AvaTax
+    versions:
+    - 20.12.1
+    - 21.1.1
+    - 21.3.0
+  - dependency-name: Microsoft.EntityFrameworkCore.Proxies
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+  - dependency-name: Microsoft.EntityFrameworkCore.SqlServer
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.8.3
+    - 16.9.1
+  - dependency-name: System.Linq.Dynamic.Core
+    versions:
+    - 1.2.7
+    - 1.2.8
+  - dependency-name: WebMarkupMin.NUglify
+    versions:
+    - 2.9.1
+    - 2.9.2
+  - dependency-name: NUnit
+    versions:
+    - 3.13.0
+    - 3.13.1
+  - dependency-name: Moq
+    versions:
+    - 4.16.0
+  - dependency-name: WebMarkupMin.AspNetCore2
+    versions:
+    - 2.9.1
+  - dependency-name: SixLabors.ImageSharp
+    versions:
+    - 1.0.2
+  - dependency-name: System.ServiceModel.Http
+    versions:
+    - 4.8.0
+  - dependency-name: AutoMapper.Extensions.Microsoft.DependencyInjection
+    versions:
+    - 8.1.0
+  - dependency-name: Humanizer
+    versions:
+    - 2.8.26
+  - dependency-name: Newtonsoft.Json
+    versions:
+    - 12.0.3
